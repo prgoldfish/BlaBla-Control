@@ -1,17 +1,13 @@
-body{
-    font-family: 'Dokdo';font-size: 50px;
-}
-
-.SideMenu{
+.Menu{
 	position: fixed;
-	top:-10px;
-	left:0;
-	bottom:-10px;
-	width:250px;
+	top: -10px;
+	left: 0;
+	bottom: -10px;
+	width: 200px;
 	background: yellow;
 	box-shadow: 0px 0px 10px;
 }
 
 .Contenu{
-	margin-left: 300px;
+	margin-left: 210px;
 }
