@@ -1,6 +1,6 @@
 class Appareil
 {
-    constructor(nom, type)
+    constructor(nom, type, etage, x, y)
     {
         if(this.constructor == Appareil)
         {
@@ -11,6 +11,9 @@ class Appareil
             this.nom = nom;
             this.type = type;
             this.options = {};
+            this.etage = etage;
+            this.locX = x;
+            this.locY = y;
         }
     }
 
@@ -37,9 +40,9 @@ class Appareil
 
 class Porte extends Appareil
 {
-    constructor(nom)
+    constructor(nom, etage, x, y)
     {
-        super(nom, "Porte");
+        super(nom, "Porte", etage, x, y);
         this.ouvert = false;
         this.setNewOptions("Ouvrir", []);
         this.setNewOptions("Fermer", []);
@@ -69,9 +72,9 @@ class Porte extends Appareil
 
 class Fenetre extends Appareil
 {
-    constructor(nom)
+    constructor(nom, etage, x, y)
     {
-        super(nom, "Fenetre");
+        super(nom, "Fenetre", etage, x, y);
         this.ouvert = false;
         this.setNewOptions("Ouvrir", []);
         this.setNewOptions("Fermer", []);
@@ -102,9 +105,9 @@ class Fenetre extends Appareil
 
 class TV extends Appareil
 {
-    constructor(nom)
+    constructor(nom, etage, x, y)
     {
-        super(nom, "TV");
+        super(nom, "TV", etage, x, y);
         this.allumee = false;
         this.chaine = "TV0";
         this.volume = 0;
@@ -161,9 +164,9 @@ class TV extends Appareil
 
 class Chauffage extends Appareil
 {
-    constructor(nom)
+    constructor(nom, etage, x, y)
     {
-        super(nom, "Chauffage");
+        super(nom, "Chauffage", etage, x, y);
         this.allume = false;
         this.temperature = 0;
         this.setNewOptions("Allumer", []);
