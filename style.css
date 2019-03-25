@@ -12,6 +12,17 @@
 	margin-left: 210px;
 }
 
+.Etage{
+	position: relative;
+}
+
+.Point{
+	position: absolute;
+	z-index: 2;
+	width: 20px;
+	height: 20px;
+}
+
 .Menu{
 	list-style-type: none;
 	margin: 0;
