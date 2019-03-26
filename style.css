@@ -1,26 +1,15 @@
+body{
+	margin: 0;
+}
+
 .PanneauMenu{
 	position: fixed;
+	z-index: 1;
 	top: -10px;
-	left: 0;
 	bottom: -10px;
 	width: 200px;
-	background: yellow;
+	background: lightblue;
 	box-shadow: 0px 0px 10px black;
-}
-
-.Plan{
-	margin-left: 210px;
-}
-
-.Etage{
-	position: relative;
-}
-
-.Point{
-	position: absolute;
-	z-index: 2;
-	width: 20px;
-	height: 20px;
 }
 
 .Menu{
@@ -29,18 +18,40 @@
 	padding: 0;
 }
 
-.Menu li{
+.Menu > li{
 	border-top: 1px solid gray;
 	border-bottom: 1px solid gray;
 	margin-bottom: -1px;
 	padding: 10px;
 }
 
-.Menu li:hover{
-	background: dimgray;
+.Menu > li:hover{
+	background: darkcyan;
 	color: white;
 }
 
+#OnOffSwitch{
+	position: relative;
+	width: 40px;
+	height: 20px;
+	margin: 5px;
+	border-radius: 10px;
+	background: darkgreen;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5) inset;
+	transition: background 0.2s ease-out;
+}
+
+#OnOffHandle{
+	position: absolute;
+	left: 15px;
+	top: -5px;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	background: green;
+	box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
+	transition: left 0.2s ease-out, background 0.2s ease-out;
+}
 
 .BoutonAide{
 	position: absolute;
@@ -63,4 +74,65 @@
 	background: white;
 	color: blue;
 	border: 5px solid blue;
+}
+
+#plan{
+	padding-left: 300px;
+	background: white;
+	transition: filter 0.2s ease-out;
+}
+
+.Etage{
+	box-sizing: border-box;
+	min-height: 100vh;
+	padding-top: 100px;
+}
+
+.Etage > div{
+	position: relative;
+}
+
+.Point{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	box-shadow: 0px 0px 5px black;
+}
+
+.Point > div{
+	display: none;
+	position: absolute;
+	z-index: 1;
+	left: 100%;
+	top: 100%;
+	border-radius: 0px 10px 10px 10px;
+	padding: 10px;
+	white-space: nowrap;
+	background: rgba(255, 255, 0, 0.75);
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.Point:hover > div{
+	display: block;
+}
+
+.window{
+	display: none;
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	background: rgba(0, 0, 0, 0.5);
+	padding-left: 200px;
+	overflow: auto;
+}
+
+.window > div{
+	margin: 100px;
+	border-radius: 20px;
+	padding: 20px;
+	background: white;
+	box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }

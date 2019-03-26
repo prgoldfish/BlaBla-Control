@@ -11,21 +11,33 @@
 		<div class="PanneauMenu">
 			<h1>Menu</h1>
 			<ul class="Menu">
-				<li id="OnOff">Désactiver le système</li>
+				<li id="OnOff">
+					<span id="OnOffLabel">Désactiver le système</span>
+					<div id="OnOffSwitch">
+						<div id="OnOffHandle"></div>
+					</div>
+				</li>
 				<li>ajouter une commande</li>
 				<li>Liste des commandes</li>
 				<li>associer un appareil</li>
 				<li>options</li>
 			</ul>
-			<button class="BoutonAide">?</button>
+			<button class="BoutonAide" onclick="window.open('help.html', '', 'left=300,top=100')">?</button>
 		</div>
-		<div class="Plan">
-			<div class="Etage" id="etage1">
-				<img src="plan/1er.png" alt="Plan de la maison"/>
+		<div id="plan">
+			<div class="Etage">
+				<div id="etage1">
+					<img src="plan/1er.png" alt="Plan de la maison"/>
+				</div>
 			</div>
-			<div class="Etage" id="etage0">
-				<img src="plan/RdC.png" alt="Plan de la maison"/>
+			<div class="Etage">
+				<div id="etage0">
+					<img src="plan/RdC.png" alt="Plan de la maison"/>
+				</div>
 			</div>
+		</div>
+		<div class="window">
+			<div></div>
 		</div>
 	</body>
 </html>

@@ -1,8 +1,12 @@
 window.addEventListener("load", () => {
     let isOn = true;
     document.getElementById("OnOff").addEventListener("click", (e) => {
-        e.target.innerHTML = isOn ? "Activer le système" : "Désactiver le système";
         isOn = !isOn;
+        document.getElementById("OnOffLabel").innerHTML = isOn ? "Désactiver le système" : "Activer le système";
+        document.getElementById("OnOffSwitch").style.background = isOn ? "darkgreen" : "darkred";
+        document.getElementById("OnOffHandle").style.background = isOn ? "green" : "red";
+        document.getElementById("OnOffHandle").style.left = isOn ? "15px" : "-5px";
+        document.getElementById("plan").style.filter = isOn ? "contrast(1)" : "contrast(0.5)";
     });
 
     let appareils = [];
@@ -44,5 +48,6 @@ function addOnMap(app) {
             div.style.background = "magenta";
             break;
     }
+    div.innerHTML = "<div>informations sur l'appareil</div>"
     img.appendChild(div);
 }
