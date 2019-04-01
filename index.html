@@ -38,7 +38,27 @@
 		</div>
 		<div id="window">
 			<div>
-				<button id="CloseButton">X</button>
+				<button id="CloseButton" type="button">X</button>
+				<h1 id="titre"></h1>
+				<form id="AjoutForm">
+					<div>
+						<label for="cName">Nom de la commande  </label>
+						<input type="text" id="cName">
+					</div>
+					<div>
+						<label for="cText">Commande  </label>
+						<textarea id="cText" rows="5" cols="50"></textarea>
+					</div>
+					<div>
+						<label for="cName">Appareil associé  </label>
+						<select id="cApp"></select>
+					</div>
+					<button id="toAction" type="button">Continuer</button>
+				</form>
+
+				<form id="ActionForm">
+
+				</form>
 			</div>
 		</div>
 	</body>

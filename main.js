@@ -63,44 +63,38 @@ function addOnMap(app) {
 function initWindows() {
     let fen = document.getElementById("window");
     let close = document.getElementById("CloseButton");
+    let forms = new Map();
+    forms.set("ajout", document.getElementById("AjoutForm"));
+    forms.set("action", document.getElementById("ActionForm"));
 
     close.addEventListener("click", () => {
-        let inWindow = fen.firstElementChild;
-        while(inWindow.hasChildNodes())
-        {
-            inWindow.removeChild(inWindow.firstChild);
-        }
-        inWindow.appendChild(close);
-        console.log("Hey");
+        document.getElementById("titre").innerHTML = "";
         fen.style.display = "none";
-        
+        for (const f of forms.values()) {
+            f.style.display = "none";
+        } 
+        console.log("Close");       
     });
 
     document.getElementById("Ajout").addEventListener("click", (e) => {
         if(fen.style.display != "block")
         {
             fen.style.display = "block";
-            createCommandWindow(fen);
-        }
-        
-        
+            forms.get("ajout").style.display = "block";
+            let dropdown = document.getElementById("cApp");
+            dropdown.innerHTML = "";
+            for (let i = 0; i < appareils.length; i++) {
+                dropdown.innerHTML += "<option value=" + i + ">" + appareils[i].nom + "</option>";
+                
+            }
+            document.getElementById("titre").innerHTML = "Créer une commande";
+        }        
     });
-}
 
-function createCommandWindow(fen) {
-    let inWindow = fen.firstElementChild;
-    let title = document.createElement("h1");
-    let form = document.createElement("form");
-    let commandName = document.createElement("div");
-    let commandText = document.createElement("div");
-    title.innerHTML = "Créer une commande";
-    commandName.innerHTML = "<label for=\"cName\">Nom de la commande  </label>";
-    commandName.innerHTML += "<input type=\"text\" id=\"cName\"/><br/>";
-    commandText.innerHTML = "<label for=\"cText\">Commande  </label>";
-    commandText.innerHTML += "<textarea id=\"cText\"></textarea><br/>";
-    form.appendChild(commandName);
-    form.appendChild(commandText);
-    inWindow.appendChild(title);
-    inWindow.appendChild(form);
-    fen.appendChild(inWindow);
+    document.getElementById("toAction").addEventListener("click", () => {
+        forms.get("ajout").style.display = "none";
+        forms.get("action").style.display = "block";
+
+    })
+    
 }
