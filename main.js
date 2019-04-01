@@ -12,10 +12,10 @@ window.addEventListener("load", () => {
     });
 
     //let appareils = [];
-    appareils.push(new Porte("Chambre 1", 0, 370, 280));
-    appareils.push(new Fenetre("Chambre 2", 1, 180, 180));
-    appareils.push(new TV("Salon", 0, 340, 150));
-    appareils.push(new Chauffage("Cellier", 0, 240, 325));
+    appareils.push(new Porte("Porte Chambre 1", 0, 370, 280));
+    appareils.push(new Fenetre("Fenetre Chambre 2", 1, 180, 180));
+    appareils.push(new TV("TV Salon", 0, 340, 150));
+    appareils.push(new Chauffage("Chauffage Cellier", 0, 240, 325));
 
     for (const app of appareils) {
         addOnMap(app);        
@@ -94,6 +94,9 @@ function initWindows() {
     document.getElementById("toAction").addEventListener("click", () => {
         forms.get("ajout").style.display = "none";
         forms.get("action").style.display = "block";
+        document.getElementById("AppName").innerHTML = appareils[document.getElementById("cApp").value].nom;
+        document.getElementById("CommandName").innerHTML = document.getElementById("cName").value;
+        document.getElementById("actValue").style.display = "none";
 
     })
     
