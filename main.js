@@ -20,6 +20,7 @@ window.addEventListener("load", () => {
     for (const app of appareils) {
         addOnMap(app);        
     }
+    initWindows();
 
 
 });
@@ -57,4 +58,17 @@ function addOnMap(app) {
     });
     div.appendChild(tooltip);
     img.appendChild(div);
+}
+
+function initWindows() {
+    let fen = document.getElementById("window");
+
+    document.getElementById("Ajout").addEventListener("click", (e) => {
+        fen.style.display = "block";
+        let inWindow = fen.firstElementChild;
+        fen.appendChild(inWindow);
+        let title = document.createElement("h1");
+        title.innerHTML = "Créer une commande";
+        inWindow.appendChild(title);
+    });
 }
