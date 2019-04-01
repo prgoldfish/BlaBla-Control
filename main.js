@@ -12,10 +12,10 @@ window.addEventListener("load", () => {
     });
 
     //let appareils = [];
-    appareils.push(new Porte("Chambre 1", 0, 100, 100));
-    appareils.push(new Fenetre("Chambre 2", 1, 0, 0));
-    appareils.push(new TV("Salon", 0, 0, 100));
-    appareils.push(new Chauffage("Cellier", 0, 100, 0));
+    appareils.push(new Porte("Chambre 1", 0, 370, 280));
+    appareils.push(new Fenetre("Chambre 2", 1, 180, 180));
+    appareils.push(new TV("Salon", 0, 340, 150));
+    appareils.push(new Chauffage("Cellier", 0, 240, 325));
 
     for (const app of appareils) {
         addOnMap(app);        
