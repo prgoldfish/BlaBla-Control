@@ -117,7 +117,7 @@ body{
 	display: block;
 }
 
-.window{
+#window{
 	display: none;
 	position: fixed;
 	left: 0px;
@@ -129,10 +129,21 @@ body{
 	overflow: auto;
 }
 
-.window > div{
+#window > div{
+	position: relative;
 	margin: 100px;
 	border-radius: 20px;
-	padding: 20px;
+	padding: 0px 40px;
 	background: white;
 	box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+	overflow: hidden;
+}
+
+#CloseButton{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 40px;
+	height: 40px;
+	font-size: 20px;
 }
