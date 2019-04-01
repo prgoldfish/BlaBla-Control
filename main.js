@@ -1,3 +1,5 @@
+let appareils = [];
+
 window.addEventListener("load", () => {
     let isOn = true;
     document.getElementById("OnOff").addEventListener("click", (e) => {
@@ -9,7 +11,7 @@ window.addEventListener("load", () => {
         document.getElementById("plan").style.filter = isOn ? "contrast(1)" : "contrast(0.5)";
     });
 
-    let appareils = [];
+    //let appareils = [];
     appareils.push(new Porte("Chambre 1", 0, 100, 100));
     appareils.push(new Fenetre("Chambre 2", 1, 0, 0));
     appareils.push(new TV("Salon", 0, 0, 100));
@@ -48,6 +50,11 @@ function addOnMap(app) {
             div.style.background = "magenta";
             break;
     }
-    div.innerHTML = "<div>informations sur l'appareil</div>"
+    //div.innerHTML = "<div>informations sur l'appareil</div>"
+    let tooltip = document.createElement("div");
+    div.addEventListener("mouseenter", () => {
+        tooltip.innerHTML = "Nom : " + app.nom + "<br/>Type : " + app.type + "<br/>Statut : " + app.getStatus();
+    });
+    div.appendChild(tooltip);
     img.appendChild(div);
 }

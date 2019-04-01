@@ -119,7 +119,7 @@ class TV extends Appareil
 
     getStatus()
     {
-        return this.allumee ? ("Allumée. Chaine : " + this.chaine + ". Volume : " + this.volume) : "Eteinte";
+        return this.allumee ? ("Allumée <br/>Chaine : " + this.chaine + "<br/>Volume : " + this.volume + "%") : "Eteinte";
     }
 
     setOption(opName, option)
@@ -168,7 +168,7 @@ class Chauffage extends Appareil
     {
         super(nom, "Chauffage", etage, x, y);
         this.allume = false;
-        this.temperature = 0;
+        this.temperature = 20;
         this.setNewOptions("Allumer", []);
         this.setNewOptions("Eteindre", []);
         this.setNewOptions("Temperature", ["15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]);
@@ -176,7 +176,7 @@ class Chauffage extends Appareil
 
     getStatus()
     {
-        return this.allume ? ("Allumé. Temperature : " + this.temperature + "°C") : "Eteint";
+        return this.allume ? ("Allumé<br/>Temperature : " + this.temperature + "°C") : "Eteint";
     }
 
     setOption(opName, option)
