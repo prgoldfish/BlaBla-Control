@@ -139,6 +139,10 @@ body{
 	overflow: hidden;
 }
 
+#window form{
+	display: none;
+}
+
 #CloseButton{
 	position: absolute;
 	top: 0;
@@ -146,4 +150,8 @@ body{
 	width: 40px;
 	height: 40px;
 	font-size: 20px;
+}
+
+textarea{
+	vertical-align: top;
 }
