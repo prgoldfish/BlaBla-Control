@@ -154,4 +154,5 @@ body{
 
 textarea{
 	vertical-align: top;
+	resize: vertical;
 }
