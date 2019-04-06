@@ -64,10 +64,8 @@ function addOnMap(app) {
 function initWindows() {
     let fen = document.getElementById("window");
     let close = document.getElementById("CloseButton");
-    let actDropDown = document.getElementById("act");
     let forms = new Map();
     forms.set("ajout", document.getElementById("AjoutForm"));
-    forms.set("action", document.getElementById("ActionForm"));
 
     // Bouton pour fermer la fenêtre
     close.addEventListener("click", () => { 
@@ -85,40 +83,38 @@ function initWindows() {
         {
             fen.style.display = "block";
             forms.get("ajout").style.display = "block";
-            let dropdown = document.getElementById("cApp");
-            dropdown.innerHTML = "";
+            let appDropdown = document.getElementById("cApp");
+            let actDropDown = document.getElementById("act");
+            appDropdown.innerHTML = "";
             for (let i = 0; i < appareils.length; i++) {
-                dropdown.innerHTML += "<option value=" + i + ">" + appareils[i].nom + "</option>";
+                appDropdown.innerHTML += "<option value=" + i + ">" + appareils[i].nom + "</option>";
                 
             }
             document.getElementById("titre").innerHTML = "Créer une commande";
+            let app = appareils[document.getElementById("cApp").value];
+            actDropDown.innerHTML = "";
+            document.getElementById("actValue").style.display = "none";
+            for (const act of Object.keys(app.options)) {
+                actDropDown.innerHTML += "<option value=" + act + ">" + act + "</option>"
+            }
+        
         }        
     });
 
-    // Passer au formulaire d'action
-    document.getElementById("toAction").addEventListener("click", () => {
-        if(document.getElementById("cName").value == "" ||
-            document.getElementById("cText").value == "" )
-        {
-            alert("Veuillez remplir les champs.");
-            return;   
-        }
-        forms.get("ajout").style.display = "none";
-        forms.get("action").style.display = "block";
+    //Lors du changement d'appareil
+    document.getElementById("cApp").addEventListener("change", () => {
         let app = appareils[document.getElementById("cApp").value];
+        let actDropDown = document.getElementById("act");
         actDropDown.innerHTML = "";
-        document.getElementById("AppName").innerHTML = app.nom;
-        document.getElementById("CommandName").innerHTML = document.getElementById("cName").value;
         document.getElementById("actValue").style.display = "none";
         for (const act of Object.keys(app.options)) {
             actDropDown.innerHTML += "<option value=" + act + ">" + act + "</option>"
         }
-
     });
 
     // Lors du changement d'action
-    actDropDown.addEventListener("change", () => {
-        let val = actDropDown.value;
+    document.getElementById("act").addEventListener("change", () => {
+        let val = document.getElementById("act").value;
         let app = appareils[document.getElementById("cApp").value];
         let optionValues = app.getOptions(val);
         if(optionValues != [])
@@ -138,13 +134,19 @@ function initWindows() {
     });
 
     document.getElementById("createCommand").addEventListener("click", () => {
+        if(document.getElementById("cName").value == "" ||
+            document.getElementById("cText").value == "" )
+        {
+            alert("Veuillez remplir tous les champs.");
+            return;   
+        }        
         let conf = confirm("Voulez-vous créer la commande " + document.getElementById("cName").value + " ?");
         if(conf)
         {
             let nom = document.getElementById("cName").value;
             let text = document.getElementById("cText").value;
             let app = appareils[document.getElementById("cApp").value];
-            let optionName = actDropDown.value;
+            let optionName = document.getElementById("act").value;
             let optionValue = document.getElementById("actValue").value;
             commandList.push(new Commande(nom, text, app, optionName, optionValue));
             close.click();
