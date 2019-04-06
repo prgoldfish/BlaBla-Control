@@ -22,7 +22,7 @@ class Commande
 
     doAction()
     {
-        for (const app of appareils) 
+        for (const app of this.appareils) 
         {
             app.setOption(this.action.optionName, this.action.optionValue);   
         }

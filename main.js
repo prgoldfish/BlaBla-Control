@@ -1,4 +1,5 @@
 let appareils = [];
+let commandList = [];
 
 window.addEventListener("load", () => {
     let isOn = true;
@@ -63,11 +64,13 @@ function addOnMap(app) {
 function initWindows() {
     let fen = document.getElementById("window");
     let close = document.getElementById("CloseButton");
+    let actDropDown = document.getElementById("act");
     let forms = new Map();
     forms.set("ajout", document.getElementById("AjoutForm"));
     forms.set("action", document.getElementById("ActionForm"));
 
-    close.addEventListener("click", () => {
+    // Bouton pour fermer la fenêtre
+    close.addEventListener("click", () => { 
         document.getElementById("titre").innerHTML = "";
         fen.style.display = "none";
         for (const f of forms.values()) {
@@ -76,6 +79,7 @@ function initWindows() {
         console.log("Close");       
     });
 
+    // Ajout d'une commande
     document.getElementById("Ajout").addEventListener("click", (e) => {
         if(fen.style.display != "block")
         {
@@ -91,13 +95,62 @@ function initWindows() {
         }        
     });
 
+    // Passer au formulaire d'action
     document.getElementById("toAction").addEventListener("click", () => {
+        if(document.getElementById("cName").value == "" ||
+            document.getElementById("cText").value == "" )
+        {
+            alert("Veuillez remplir les champs.");
+            return;   
+        }
         forms.get("ajout").style.display = "none";
         forms.get("action").style.display = "block";
-        document.getElementById("AppName").innerHTML = appareils[document.getElementById("cApp").value].nom;
+        let app = appareils[document.getElementById("cApp").value];
+        actDropDown.innerHTML = "";
+        document.getElementById("AppName").innerHTML = app.nom;
         document.getElementById("CommandName").innerHTML = document.getElementById("cName").value;
         document.getElementById("actValue").style.display = "none";
+        for (const act of Object.keys(app.options)) {
+            actDropDown.innerHTML += "<option value=" + act + ">" + act + "</option>"
+        }
 
+    });
+
+    // Lors du changement d'action
+    actDropDown.addEventListener("change", () => {
+        let val = actDropDown.value;
+        let app = appareils[document.getElementById("cApp").value];
+        let optionValues = app.getOptions(val);
+        if(optionValues != [])
+        {
+            document.getElementById("actValue").style.display = "block";
+            document.getElementById("actValue").innerHTML = "";
+            console.log(optionValues);
+            for (const actVal of optionValues) {
+                document.getElementById("actValue").innerHTML += "<option value=" + actVal + ">" + actVal + "</option>"
+            }
+        }
+        else
+        {
+            document.getElementById("actValue").style.display = "none";
+        }
+
+    });
+
+    document.getElementById("createCommand").addEventListener("click", () => {
+        let conf = confirm("Voulez-vous créer la commande " + document.getElementById("cName").value + " ?");
+        if(conf)
+        {
+            let nom = document.getElementById("cName").value;
+            let text = document.getElementById("cText").value;
+            let app = appareils[document.getElementById("cApp").value];
+            let optionName = actDropDown.value;
+            let optionValue = document.getElementById("actValue").value;
+            commandList.push(new Commande(nom, text, app, optionName, optionValue));
+            close.click();
+            alert("Commande créée");
+
+        }
     })
     
 }
