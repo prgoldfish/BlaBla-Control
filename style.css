@@ -186,3 +186,24 @@ textarea{
 #suggestions > span:active{
 	cursor: grabbing;
 }
+
+#ListForm{
+	display: none;
+	border: 1px solid gray;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#ListForm > li{
+	border-bottom: 1px solid gray;
+	padding: 10px;
+}
+
+#ListForm > li:hover{
+	background: lightgray;
+}
+
+#ListForm > li > button{
+	float: right;
+}
