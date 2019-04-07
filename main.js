@@ -66,6 +66,7 @@ function initWindows() {
     let close = document.getElementById("CloseButton");
     let forms = new Map();
     forms.set("ajout", document.getElementById("AjoutForm"));
+    forms.set("cList", document.getElementById("ListForm"));
     createSuggestionList(document.getElementById("suggestions"));
 
     // Bouton pour fermer la fenêtre
@@ -74,8 +75,17 @@ function initWindows() {
         fen.style.display = "none";
         for (const f of forms.values()) {
             f.style.display = "none";
-        } 
-        console.log("Close");       
+        }
+    });
+
+    document.getElementById("CommandList").addEventListener("click", () => {
+        if(fen.style.display != "block")
+        {
+            fen.style.display = "block";
+            forms.get("cList").style.display = "block";
+            document.getElementById("titre").innerHTML = "Liste des commandes";
+            initCommandList(document.getElementById("ListForm"));
+        }
     });
 
     // Ajout d'une commande
@@ -122,7 +132,6 @@ function initWindows() {
         {
             document.getElementById("actValue").style.display = "block";
             document.getElementById("actValue").innerHTML = "";
-            console.log(optionValues);
             for (const actVal of optionValues) {
                 document.getElementById("actValue").innerHTML += "<option value=" + actVal + ">" + actVal + "</option>"
             }
@@ -187,4 +196,40 @@ function drop(ev) {
     ev.target.value += data; 
 
     ev.preventDefault();
+}
+
+function initCommandList(list)
+{
+    list.innerHTML = "";
+    for (let i = 0; i < commandList.length; i++) {
+        let li = document.createElement("li");
+        let s = document.createElement("span");
+        s.innerHTML = commandList[i].nom;
+        li.appendChild(s);
+        let exec = document.createElement("button");
+        exec.innerHTML = "Exécuter";
+        exec.type = "button";
+        exec.addEventListener("click", () => {
+            commandList[i].doAction();
+            alert("Commande exécutée avec succès");
+        });
+        li.appendChild(exec);
+        let suppr = document.createElement("button");
+        suppr.innerHTML = "Supprimer";
+        suppr.type = "button";
+        suppr.addEventListener("click", () => {
+            let nom = commandList[i].nom;
+            commandList.splice(i, 1);
+            initCommandList(list); // Si on supprime une commande, on recharge la liste
+            alert("Commande " + nom + " supprimée avec succès");
+        });
+        li.appendChild(suppr);
+        list.appendChild(li);
+    }
+    if(list.innerHTML == "")
+    {
+        let li = document.createElement("li");
+        li.innerHTML = "Aucune commande de créée.";
+        list.appendChild(li);
+    }
 }
