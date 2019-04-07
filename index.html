@@ -48,7 +48,8 @@
 					</div>
 					<div>
 						<label for="cText">Commande  </label>
-						<textarea id="cText" rows="5" cols="50"></textarea>
+						<textarea id="cText" rows="5" cols="50" ondrop="drop(event)" ondragover="allowDrop(event)"></textarea>
+						<p id="suggestions"></p>
 					</div>
 					<div>
 						<label for="cApp">Appareil associé  </label>

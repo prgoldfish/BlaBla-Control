@@ -66,6 +66,7 @@ function initWindows() {
     let close = document.getElementById("CloseButton");
     let forms = new Map();
     forms.set("ajout", document.getElementById("AjoutForm"));
+    createSuggestionList(document.getElementById("suggestions"));
 
     // Bouton pour fermer la fenêtre
     close.addEventListener("click", () => { 
@@ -155,4 +156,37 @@ function initWindows() {
         }
     })
     
+}
+
+function createSuggestionList(elmt)
+{
+    let suggestionList = ["Ouvrir", "Fermer", "Allumer", "Eteindre", "Volume", "Température", "Chaine"];
+    for (const sugg of suggestionList) {
+        let s = document.createElement("span");
+        s.innerHTML = sugg + " ";
+        s.draggable = true;
+        s.ondragstart = drag;
+        elmt.appendChild(s);
+        s.addEventListener("click", () => {
+            document.getElementById("cText").value += s.innerHTML;
+        });
+        
+    }
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("Text", ev.target.innerHTML);
+}
+
+function drop(ev) {
+    let data = ev.dataTransfer.getData("Text");
+    console.log(ev.target.innerHTML);
+    ev.target.value += data;
+    console.log(ev.target.innerHTML);
+
+    ev.preventDefault();
 }
