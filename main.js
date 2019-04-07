@@ -1,8 +1,8 @@
 let appareils = [];
 let commandList = [];
+let isOn = true;
 
 window.addEventListener("load", () => {
-    let isOn = true;
     document.getElementById("OnOff").addEventListener("click", (e) => {
         isOn = !isOn;
         document.getElementById("OnOffLabel").innerHTML = isOn ? "Désactiver le système" : "Activer le système";
@@ -64,9 +64,11 @@ function addOnMap(app) {
 function initWindows() {
     let fen = document.getElementById("window");
     let close = document.getElementById("CloseButton");
+    let appTypes = [Porte, Fenetre, TV, Chauffage];
     let forms = new Map();
     forms.set("ajout", document.getElementById("AjoutForm"));
     forms.set("cList", document.getElementById("ListForm"));
+    forms.set("addApp", document.getElementById("AppForm"));
     createSuggestionList(document.getElementById("suggestions"));
 
     // Bouton pour fermer la fenêtre
@@ -78,6 +80,37 @@ function initWindows() {
         }
     });
 
+    // Ajout d'un appareil
+    document.getElementById("Associer").addEventListener("click", () => {
+        if(fen.style.display != "block")
+        {
+            fen.style.display = "block";
+            forms.get("addApp").style.display = "block";
+            document.getElementById("titre").innerHTML = "Associer un appareil";
+            document.getElementById("aType").innerHTML = "";
+            for (let i = 0; i < appTypes.length; i++) {
+                document.getElementById("aType").innerHTML += "<option value=app" + i + ">" + appTypes[i].name + "</option>";
+            }
+        }
+    });
+
+    // Placement de l'appareil
+    document.getElementById("placeApp").addEventListener("click", () => {
+        if(document.getElementById("aName").value == "")
+        {
+            alert("Veuillez donner un nom à l'appareil.");
+            return;   
+        } 
+        document.getElementById("message").innerHTML = "Veuillez placer l'appareil " + document.getElementById("aName").value + " sur le plan";
+        close.click();
+        let imgs = getEtagesImg();
+        console.log(imgs);
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].addEventListener("click", (ev) => {mapListen(ev, i, appTypes)});            
+        }
+    });
+
+    // Affichage de la liste des commandes
     document.getElementById("CommandList").addEventListener("click", () => {
         if(fen.style.display != "block")
         {
@@ -143,6 +176,7 @@ function initWindows() {
 
     });
 
+    // Confirmation de la création de la commande
     document.getElementById("createCommand").addEventListener("click", () => {
         if(document.getElementById("cName").value == "" ||
             document.getElementById("cText").value == "" )
@@ -163,7 +197,7 @@ function initWindows() {
             alert("Commande créée");
 
         }
-    })
+    });
     
 }
 
@@ -231,5 +265,45 @@ function initCommandList(list)
         let li = document.createElement("li");
         li.innerHTML = "Aucune commande de créée.";
         list.appendChild(li);
+    }
+}
+
+function getEtagesImg() {
+    let etages = document.getElementsByClassName("Etage");
+    let imgs = [];
+    for (let i = 0; i < etages.length; i++) {
+        let noEtage = parseInt(etages[i].firstElementChild.id.replace("etage", ""));
+        for (const elt of etages[i].firstElementChild.childNodes) {
+            if(elt.tagName == "IMG")
+            {
+                imgs[noEtage] = elt;
+                break;
+            }
+        }        
+    }
+    return imgs;
+
+}
+
+function mapListen(ev, etage, appTypes) {
+    let x = ev.offsetX;
+    let y = ev.offsetY;
+    let nom = document.getElementById("aName").value;
+    let idApp = parseInt(document.getElementById("aType").value.replace("app", ""));
+    let appConstructor = appTypes[idApp];
+    let app = new appConstructor(nom, etage, x, y);
+    appareils.push(app);
+    addOnMap(app);
+    removeMapListeners();
+    document.getElementById("message").innerHTML = "";
+    alert("L'appareil " + nom + " de type " + appConstructor.name + "a été créé avec succès");
+}
+
+function removeMapListeners()
+{
+
+    for (const img of getEtagesImg()) {
+        let clone = img.cloneNode(true);
+        img.parentNode.replaceChild(clone, img); // Cloner un élément enlève les listeners affiliés à l'élément.
     }
 }

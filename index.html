@@ -26,6 +26,7 @@
 			<button class="BoutonAide" onclick="window.open('help.html', '', 'left=300,top=100')">?</button>
 		</div>
 		<div id="plan">
+			<h3 id="message"></h3>
 			<div class="Etage">
 				<div id="etage1">
 					<img src="plan/1er.png" alt="Plan de la maison"/>
@@ -67,6 +68,17 @@
 				</form>
 				<ul id=ListForm>
 				</ul>
+				<form id="AppForm">
+					<div>
+						<label for="aName">Nom de l'appareil : </label>
+						<input type="text" id="aName">
+					</div>
+					<div>
+						<label for="aType">Type d'appareil : </label>
+						<select id="aType"></select>
+					</div>
+					<button id="placeApp" type="button">Placer l'appareil</button>
+				</form>
 			</div>
 		</div>
 	</body>
