@@ -184,9 +184,7 @@ function drag(ev) {
 
 function drop(ev) {
     let data = ev.dataTransfer.getData("Text");
-    console.log(ev.target.innerHTML);
-    ev.target.value += data;
-    console.log(ev.target.innerHTML);
+    ev.target.value += data; 
 
     ev.preventDefault();
 }
