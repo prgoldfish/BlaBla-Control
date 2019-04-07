@@ -298,7 +298,7 @@ function mapListen(ev, etage, appTypes) { //Listener permettant de selectionner 
     addOnMap(app); // On l'ajoute sur le plan
     removeMapListeners(); // On enlève les listeners afin de ne pas ajouter plusieurs fois le même objet
     document.getElementById("message").innerHTML = "";
-    alert("L'appareil " + nom + " de type " + appConstructor.name + "a été créé avec succès");
+    alert("L'appareil " + nom + " de type " + appConstructor.name + " a été créé avec succès");
 }
 
 function removeMapListeners() // Permet d'enlever les listeners créés lors du placement d'un appareil sur le plan 
