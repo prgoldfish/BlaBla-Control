@@ -43,20 +43,23 @@
 				<h1 id="titre"></h1>
 				<form id="AjoutForm">
 					<div>
-						<label for="cName">Nom de la commande  </label>
+						<label for="cName">Nom de la commande : </label>
 						<input type="text" id="cName">
 					</div>
-					<div>
-						<label for="cText">Commande  </label>
+					<div class="FormLeftCol">
+						<label for="cText">Commande : </label>
 						<textarea id="cText" rows="5" cols="50" ondrop="drop(event)" ondragover="allowDrop(event)"></textarea>
+					</div>
+					<div class="FormRightCol">
+						Suggestions (cliquer ou faire glisser pour ajouter) :
 						<p id="suggestions"></p>
 					</div>
-					<div>
-						<label for="cApp">Appareil associé  </label>
+					<div class="FormClearCol">
+						<label for="cApp">Appareil associé : </label>
 						<select id="cApp"></select>
 					</div>
 					<div>
-						<label for="act">Action  </label>
+						<label for="act">Action : </label>
 						<select id="act"></select>
 						<select id="actValue"></select>
 					</div>

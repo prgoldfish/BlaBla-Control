@@ -133,7 +133,7 @@ body{
 	position: relative;
 	margin: 100px;
 	border-radius: 20px;
-	padding: 0px 40px;
+	padding: 0px 40px 20px 40px;
 	background: white;
 	box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 	overflow: hidden;
@@ -150,9 +150,39 @@ body{
 	width: 40px;
 	height: 40px;
 	font-size: 20px;
+	cursor: pointer;
 }
 
 textarea{
 	vertical-align: top;
 	resize: vertical;
+}
+
+.FormLeftCol{
+	float: left;
+}
+
+.FormRightCol{
+	float: left;
+	padding-left: 10px;
+}
+
+.FormClearCol{
+	clear: both;
+}
+
+#suggestions > span{
+	background: gold;
+	margin: 5px;
+	padding: 5px;
+	box-shadow: 5px 5px black;
+	cursor: grab;
+}
+
+#suggestions > span:hover{
+	background: yellow;
+}
+
+#suggestions > span:active{
+	cursor: grabbing;
 }
