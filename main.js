@@ -1,9 +1,10 @@
+// Variables globales du systèmes
 let appareils = [];
 let commandList = [];
 let isOn = true;
 
 window.addEventListener("load", () => {
-    document.getElementById("OnOff").addEventListener("click", (e) => {
+    document.getElementById("OnOff").addEventListener("click", (e) => { // Event listener gérant le bouton on/off du menu
         isOn = !isOn;
         document.getElementById("OnOffLabel").innerHTML = isOn ? "Désactiver le système" : "Activer le système";
         document.getElementById("OnOffSwitch").style.background = isOn ? "darkgreen" : "darkred";
@@ -12,29 +13,28 @@ window.addEventListener("load", () => {
         document.getElementById("plan").style.filter = isOn ? "contrast(1)" : "contrast(0.5)";
     });
 
-    //let appareils = [];
+    //Création d'appareils par défaut
     appareils.push(new Porte("Porte Chambre 1", 0, 370, 280));
     appareils.push(new Fenetre("Fenetre Chambre 2", 1, 180, 180));
     appareils.push(new TV("TV Salon", 0, 340, 150));
     appareils.push(new Chauffage("Chauffage Cellier", 0, 240, 325));
 
-    for (const app of appareils) {
+    for (const app of appareils) { // Ajout sur le plan
         addOnMap(app);        
     }
-    initWindows();
+    initWindows(); // Initialisation des composants de la fenêtre interne
 
 
 });
 
 
-function addOnMap(app) {
-    let img = document.getElementById("etage" + app.etage);
-    //console.log(app);
+function addOnMap(app) { // Permet d'ajouter un point sur le plan représentant l'appareil
+    let img = document.getElementById("etage" + app.etage); // On cherche le bon étage
     var div = document.createElement("div");
     div.className = "Point"
-    div.style.top = app.locY + "px";
+    div.style.top = app.locY + "px"; // On place le point
     div.style.left = app.locX + "px";
-    switch (app.constructor.name) {
+    switch (app.constructor.name) { // On choisit la couleur en fonction de son type
         case "Porte":
             div.style.background = "green";
             break;
@@ -52,9 +52,8 @@ function addOnMap(app) {
             div.style.background = "magenta";
             break;
     }
-    //div.innerHTML = "<div>informations sur l'appareil</div>"
-    let tooltip = document.createElement("div");
-    div.addEventListener("mouseenter", () => {
+    let tooltip = document.createElement("div"); // Création d'un tooltip quand on passe la souris dessus
+    div.addEventListener("mouseenter", () => { // Avec un event listener associé
         tooltip.innerHTML = "Nom : " + app.nom + "<br/>Type : " + app.type + "<br/>Statut : " + app.getStatus();
     });
     div.appendChild(tooltip);
@@ -62,81 +61,80 @@ function addOnMap(app) {
 }
 
 function initWindows() {
-    let fen = document.getElementById("window");
-    let close = document.getElementById("CloseButton");
-    let appTypes = [Porte, Fenetre, TV, Chauffage];
-    let forms = new Map();
+    let fen = document.getElementById("window"); // Fenêtre interne
+    let close = document.getElementById("CloseButton"); // Bouton pour fermer la fenêtre interne
+    let appTypes = [Porte, Fenetre, TV, Chauffage]; // Constructeurs des différents types d'appareils
+    let forms = new Map(); // Récupération des différents formulaires disponibles
     forms.set("ajout", document.getElementById("AjoutForm"));
     forms.set("cList", document.getElementById("ListForm"));
     forms.set("addApp", document.getElementById("AppForm"));
-    createSuggestionList(document.getElementById("suggestions"));
+    createSuggestionList(document.getElementById("suggestions")); // Création de la liste des suggestions
 
-    // Bouton pour fermer la fenêtre
+    // Lors du clic sur le bouton pour fermer la fenêtre interne
     close.addEventListener("click", () => { 
-        document.getElementById("titre").innerHTML = "";
-        fen.style.display = "none";
-        for (const f of forms.values()) {
+        document.getElementById("titre").innerHTML = ""; // On efface le titre
+        fen.style.display = "none"; // On rend la fenêtre interne invisible
+        for (const f of forms.values()) { // Ainsi que les formulaires
             f.style.display = "none";
         }
     });
 
-    // Ajout d'un appareil
+    // Lors du clic sur "Associer un appareil" dans le menu
     document.getElementById("Associer").addEventListener("click", () => {
         if(fen.style.display != "block")
         {
-            fen.style.display = "block";
-            forms.get("addApp").style.display = "block";
-            document.getElementById("titre").innerHTML = "Associer un appareil";
-            document.getElementById("aType").innerHTML = "";
+            fen.style.display = "block"; // Affichage de la fenêtre interne
+            forms.get("addApp").style.display = "block"; // Ainsi que du formulaire associé
+            document.getElementById("titre").innerHTML = "Associer un appareil"; // On met à jour le titre
+            document.getElementById("aType").innerHTML = ""; // On met à jour la liste des types d'appareils disponibles
             for (let i = 0; i < appTypes.length; i++) {
                 document.getElementById("aType").innerHTML += "<option value=app" + i + ">" + appTypes[i].name + "</option>";
             }
         }
     });
 
-    // Placement de l'appareil
+    // Lors de l'appui sur le bouton pour placer un appareil sur le plan
     document.getElementById("placeApp").addEventListener("click", () => {
-        if(document.getElementById("aName").value == "")
+        if(document.getElementById("aName").value == "") // On vérifie qu'un nom a été rentré
         {
             alert("Veuillez donner un nom à l'appareil.");
             return;   
         } 
         document.getElementById("message").innerHTML = "Veuillez placer l'appareil " + document.getElementById("aName").value + " sur le plan";
-        close.click();
-        let imgs = getEtagesImg();
-        console.log(imgs);
+        close.click(); // On ferme la fenêtre interne afin de permettre à l'utilisateur de cliquer sur le plan
+        let imgs = getEtagesImg(); // Récupérations des images des plans
         for (let i = 0; i < imgs.length; i++) {
-            imgs[i].addEventListener("click", (ev) => {mapListen(ev, i, appTypes)});            
+            imgs[i].addEventListener("click", (ev) => {mapListen(ev, i, appTypes)});  // Ajout des listeners
         }
     });
 
-    // Affichage de la liste des commandes
+    // Lors du clic sur "Liste des commandes" dans le menu
     document.getElementById("CommandList").addEventListener("click", () => {
         if(fen.style.display != "block")
         {
-            fen.style.display = "block";
-            forms.get("cList").style.display = "block";
-            document.getElementById("titre").innerHTML = "Liste des commandes";
-            initCommandList(document.getElementById("ListForm"));
+            fen.style.display = "block"; // Affichage de la fenêtre interne
+            forms.get("cList").style.display = "block"; // Ainsi que du formulaire associé
+            document.getElementById("titre").innerHTML = "Liste des commandes"; // On met à jour le titre
+            initCommandList(document.getElementById("ListForm")); // On crée la liste des commandes
         }
     });
 
-    // Ajout d'une commande
+    // Lors du clic sur "Ajouter une commande" dans le menu 
     document.getElementById("Ajout").addEventListener("click", (e) => {
         if(fen.style.display != "block")
         {
-            fen.style.display = "block";
-            forms.get("ajout").style.display = "block";
+            fen.style.display = "block"; // Affichage de la fenêtre interne
+            forms.get("ajout").style.display = "block"; // Ainsi que du formulaire associé
             let appDropdown = document.getElementById("cApp");
             let actDropDown = document.getElementById("act");
-            appDropdown.innerHTML = "";
+            appDropdown.innerHTML = ""; // On met à jour la liste d'appareils
             for (let i = 0; i < appareils.length; i++) {
                 appDropdown.innerHTML += "<option value=" + i + ">" + appareils[i].nom + "</option>";
                 
             }
-            document.getElementById("titre").innerHTML = "Créer une commande";
+            document.getElementById("titre").innerHTML = "Créer une commande"; // On met à jour le titre
             let app = appareils[document.getElementById("cApp").value];
-            actDropDown.innerHTML = "";
+            actDropDown.innerHTML = ""; // On met à jour la liste des actions disponibles
             document.getElementById("actValue").style.display = "none";
             for (const act of Object.keys(app.options)) {
                 actDropDown.innerHTML += "<option value=" + act + ">" + act + "</option>"
@@ -145,41 +143,41 @@ function initWindows() {
         }        
     });
 
-    //Lors du changement d'appareil
+    //Lors de la sélection d'appareil lors de la création d'une commande
     document.getElementById("cApp").addEventListener("change", () => {
-        let app = appareils[document.getElementById("cApp").value];
+        let app = appareils[document.getElementById("cApp").value]; // On récupère l'appareil associé
         let actDropDown = document.getElementById("act");
-        actDropDown.innerHTML = "";
-        document.getElementById("actValue").style.display = "none";
-        for (const act of Object.keys(app.options)) {
+        actDropDown.innerHTML = ""; // On vide le menu déroulant des actions disponibles
+        document.getElementById("actValue").style.display = "none"; 
+        for (const act of Object.keys(app.options)) { // Que l'on remplit ensuite des actions pertinentes à l'appareil
             actDropDown.innerHTML += "<option value=" + act + ">" + act + "</option>"
         }
     });
 
-    // Lors du changement d'action
+    // Lors de la sélection de type d'action lors de la création d'une commande
     document.getElementById("act").addEventListener("change", () => {
-        let val = document.getElementById("act").value;
+        let val = document.getElementById("act").value; // On récupère sa valeur
         let app = appareils[document.getElementById("cApp").value];
-        let optionValues = app.getOptions(val);
-        if(optionValues != [])
+        let optionValues = app.getOptions(val); // On récupère les valeurs d'options disponibles pour cette action
+        if(optionValues != []) // S'il y en a
         {
-            document.getElementById("actValue").style.display = "block";
+            document.getElementById("actValue").style.display = "block"; // On affiche le second menu déroulant
             document.getElementById("actValue").innerHTML = "";
-            for (const actVal of optionValues) {
+            for (const actVal of optionValues) { // Que l'on remplit
                 document.getElementById("actValue").innerHTML += "<option value=" + actVal + ">" + actVal + "</option>"
             }
         }
-        else
+        else // S'il y en a pas
         {
             document.getElementById("actValue").style.display = "none";
         }
 
     });
 
-    // Confirmation de la création de la commande
+    // Lors du clic sur le bouton pour confirmer la création de la commande
     document.getElementById("createCommand").addEventListener("click", () => {
         if(document.getElementById("cName").value == "" ||
-            document.getElementById("cText").value == "" )
+            document.getElementById("cText").value == "" ) // On vérifie si les champs sont bien remplis
         {
             alert("Veuillez remplir tous les champs.");
             return;   
@@ -187,21 +185,23 @@ function initWindows() {
         let conf = confirm("Voulez-vous créer la commande " + document.getElementById("cName").value + " ?");
         if(conf)
         {
+            // On récupère les données rentrés
             let nom = document.getElementById("cName").value;
             let text = document.getElementById("cText").value;
             let app = appareils[document.getElementById("cApp").value];
             let optionName = document.getElementById("act").value;
             let optionValue = document.getElementById("actValue").value;
-            commandList.push(new Commande(nom, text, app, optionName, optionValue));
-            close.click();
-            alert("Commande créée");
 
+            // On crée la commande
+            commandList.push(new Commande(nom, text, app, optionName, optionValue));
+            close.click(); //Et on ferme la fenêtre
+            alert("Commande créée");
         }
     });
     
 }
 
-function createSuggestionList(elmt)
+function createSuggestionList(elmt) // Création de la liste des suggestions lors de la création d'une commande
 {
     let suggestionList = ["Ouvrir", "Fermer", "Allumer", "Eteindre", "Volume", "Température", "Chaine"];
     for (const sugg of suggestionList) {
@@ -211,13 +211,15 @@ function createSuggestionList(elmt)
         s.ondragstart = drag;
         elmt.appendChild(s);
         s.addEventListener("click", () => {
-            document.getElementById("cText").value += s.innerHTML;
+            document.getElementById("cText").value += s.innerHTML; // On ajoute le contenu de l'élément dans la zone de texte
         });
         
     }
 }
 
-function allowDrop(ev) {
+// Fonctions pour permettre le drag and drop du texte lors de la création d'une commande
+
+function allowDrop(ev) { 
     ev.preventDefault();
 }
 
@@ -232,23 +234,23 @@ function drop(ev) {
     ev.preventDefault();
 }
 
-function initCommandList(list)
+function initCommandList(list) // Création de la lste des commandes
 {
-    list.innerHTML = "";
-    for (let i = 0; i < commandList.length; i++) {
+    list.innerHTML = ""; //On vide ce qu'il y a précédemment
+    for (let i = 0; i < commandList.length; i++) { //Pour chaque commande
         let li = document.createElement("li");
-        let s = document.createElement("span");
+        let s = document.createElement("span"); //On ajoute le nom de la commande
         s.innerHTML = commandList[i].nom;
         li.appendChild(s);
-        let exec = document.createElement("button");
+        let exec = document.createElement("button"); // On ajoute un bouton pour exécuter la commande
         exec.innerHTML = "Exécuter";
         exec.type = "button";
         exec.addEventListener("click", () => {
-            commandList[i].doAction();
+            commandList[i].doAction(); // Lance l'action de la commande à ses appareils associés
             alert("Commande exécutée avec succès");
         });
         li.appendChild(exec);
-        let suppr = document.createElement("button");
+        let suppr = document.createElement("button"); // On ajoute un bouton pour supprimer la commande
         suppr.innerHTML = "Supprimer";
         suppr.type = "button";
         suppr.addEventListener("click", () => {
@@ -260,7 +262,7 @@ function initCommandList(list)
         li.appendChild(suppr);
         list.appendChild(li);
     }
-    if(list.innerHTML == "")
+    if(list.innerHTML == "") //S'il n'y a pas de commandes
     {
         let li = document.createElement("li");
         li.innerHTML = "Aucune commande de créée.";
@@ -268,16 +270,16 @@ function initCommandList(list)
     }
 }
 
-function getEtagesImg() {
+function getEtagesImg() { // Permet d'avoir les éléments HTML des images des plans
     let etages = document.getElementsByClassName("Etage");
     let imgs = [];
     for (let i = 0; i < etages.length; i++) {
-        let noEtage = parseInt(etages[i].firstElementChild.id.replace("etage", ""));
+        let noEtage = parseInt(etages[i].firstElementChild.id.replace("etage", "")); // On récupère le numéro de l'étage via l'id du noeud enfant sous la forme "etage1" 
         for (const elt of etages[i].firstElementChild.childNodes) {
-            if(elt.tagName == "IMG")
+            if(elt.tagName == "IMG") //On cherche le noeud img
             {
                 imgs[noEtage] = elt;
-                break;
+                break; // On l'a trouvé, pas la peine de continuer
             }
         }        
     }
@@ -285,23 +287,22 @@ function getEtagesImg() {
 
 }
 
-function mapListen(ev, etage, appTypes) {
-    let x = ev.offsetX;
+function mapListen(ev, etage, appTypes) { //Listener permettant de selectionner l'emplacement de l'appareil sur le plan
+    let x = ev.offsetX; //On récupère les coordonnées x et y du clic par rapport à l'image
     let y = ev.offsetY;
-    let nom = document.getElementById("aName").value;
-    let idApp = parseInt(document.getElementById("aType").value.replace("app", ""));
-    let appConstructor = appTypes[idApp];
-    let app = new appConstructor(nom, etage, x, y);
-    appareils.push(app);
-    addOnMap(app);
-    removeMapListeners();
+    let nom = document.getElementById("aName").value; //on récupère le nom de l'appareil
+    let idApp = parseInt(document.getElementById("aType").value.replace("app", "")); 
+    let appConstructor = appTypes[idApp]; // On récupère le constructeur de l'appareil
+    let app = new appConstructor(nom, etage, x, y); // On crée l'appareil
+    appareils.push(app); 
+    addOnMap(app); // On l'ajoute sur le plan
+    removeMapListeners(); // On enlève les listeners afin de ne pas ajouter plusieurs fois le même objet
     document.getElementById("message").innerHTML = "";
     alert("L'appareil " + nom + " de type " + appConstructor.name + "a été créé avec succès");
 }
 
-function removeMapListeners()
+function removeMapListeners() // Permet d'enlever les listeners créés lors du placement d'un appareil sur le plan 
 {
-
     for (const img of getEtagesImg()) {
         let clone = img.cloneNode(true);
         img.parentNode.replaceChild(clone, img); // Cloner un élément enlève les listeners affiliés à l'élément.

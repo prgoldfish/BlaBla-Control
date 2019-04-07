@@ -2,7 +2,7 @@ class Appareil
 {
     constructor(nom, type, etage, x, y)
     {
-        if(this.constructor == Appareil)
+        if(this.constructor == Appareil) // Appareil est une classe abstraite
         {
             throw new Error("Appareil ne peut etre instancié")
         }
@@ -17,22 +17,22 @@ class Appareil
         }
     }
 
-    getStatus()
+    getStatus() // Permet d'avoir le statut de l'appareil en une chaine de caractères
     {
         throw new Error("getStatus() doit etre implémenté");
     }    
 
-    getOptions(opName)
+    getOptions(opName) // Renvoie les valeurs possibles pour l'option passée en paramètre
     {
         return this.options[opName];
     }
 
-    setNewOptions(opName, opList)
+    setNewOptions(opName, opList) // Permet d'ajouter une nouvelle option avec des valeurs associées
     {
         this.options[opName] = opList;
     }
 
-    setOption(opName, option)
+    setOption(opName, option) // Permet de régler  l'état de l'appareil selon l'option et la valeur associée en paramètre
     {
         throw new Error("setOption() doit etre implémenté");
     }

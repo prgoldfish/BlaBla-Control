@@ -8,7 +8,7 @@ class Commande
         this.action = new Action(optionName, optionValue);
     }
 
-    ajoutAppareil(appareil)
+    ajoutAppareil(appareil) // Permet d'ajouter un appareil en plus à une commande
     {
         if(appareil.constructor.name == appareils[0].constructor.name)
         {
@@ -20,7 +20,7 @@ class Commande
         }
     }
 
-    doAction()
+    doAction() // Effectue l'action associée à la commande sur tous les appareils associés à la commande
     {
         for (const app of this.appareils) 
         {
