@@ -13,6 +13,16 @@ window.addEventListener("load", () => {
         document.getElementById("OnOffHandle").style.left = isOn ? "15px" : "-5px";
         document.getElementById("plan").style.filter = isOn ? "contrast(1)" : "contrast(0.5)";
         if(!statusBusy) displayStatus();
+        liste = document.getElementById("ListForm");
+        for (const elt of liste.childNodes) {
+            if(elt.tagName == "LI"){
+                for (const child of elt.childNodes) {
+                    if(child.tagName == "BUTTON" && child.id == "exec"){
+                        child.disabled = !isOn;
+                    }
+                }
+            }
+        }
     });
 
     //Création d'appareils par défaut
@@ -169,7 +179,7 @@ function initWindows() {
         let val = document.getElementById("act").value; // On récupère sa valeur
         let app = appareils[document.getElementById("cApp").value];
         let optionValues = app.getOptions(val); // On récupère les valeurs d'options disponibles pour cette action
-        if(optionValues != []) // S'il y en a
+        if(optionValues.length != 0) // S'il y en a
         {
             document.getElementById("actValue").style.display = "block"; // On affiche le second menu déroulant
             document.getElementById("actValue").innerHTML = "";
@@ -213,7 +223,7 @@ function initWindows() {
 
 function createSuggestionList(elmt) // Création de la liste des suggestions lors de la création d'une commande
 {
-    let suggestionList = ["Ouvrir", "Fermer", "Porte", "Fenètre", "Allumer", "Eteindre", "Chaine", "Volume", "Télévision", "Température", "Chauffage"];
+    let suggestionList = ["Ouvrir", "Fermer", "Porte", "Fenêtre", "Allumer", "Eteindre", "Chaine", "Volume", "Télévision", "Température", "Chauffage"];
     let nbElts = 0;
     for (const sugg of suggestionList) {
         let s = document.createElement("span");
@@ -260,9 +270,13 @@ function initCommandList(list) // Création de la lste des commandes
         let exec = document.createElement("button"); // On ajoute un bouton pour exécuter la commande
         exec.innerHTML = "Exécuter";
         exec.type = "button";
+        exec.disabled = !isOn;
+        exec.id = "exec";
         exec.addEventListener("click", () => {
-            commandList[i].doAction(); // Lance l'action de la commande à ses appareils associés
-            alert("Commande exécutée");
+            if(isOn){
+                commandList[i].doAction(); // Lance l'action de la commande à ses appareils associés
+                alert("Commande exécutée");
+            }
         });
         li.appendChild(exec);
         let suppr = document.createElement("button"); // On ajoute un bouton pour supprimer la commande
