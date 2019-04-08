@@ -40,9 +40,9 @@ window.addEventListener("load", () => {
 function displayStatus(){
     document.getElementById("statusMessage").innerHTML = isOn ? "Système activé" : "Système désactivé";
     statusBar = document.getElementById("statusBar");
-    statusbar.style.background = isOn ? "linear-gradient(lightgreen, rgba(255,255,255,0))" : "linear-gradient(red, rgba(255,255,255,0))";
-    statusbar.style.color = isOn ? "darkgreen" : "black";
-    for(const elt of statusbar.childNodes){
+    statusBar.style.background = isOn ? "linear-gradient(lightgreen, rgba(255,255,255,0))" : "linear-gradient(red, rgba(255,255,255,0))";
+    statusBar.style.color = isOn ? "darkgreen" : "black";
+    for(const elt of statusBar.childNodes){
         if(elt.className == "DownArrow"){
             elt.style.display = "none";
         }
@@ -124,10 +124,10 @@ function initWindows() {
         //afficher une instruction en haut de l'écran
         statusBusy = true;
         document.getElementById("statusMessage").innerHTML = "Veuillez placer l'appareil " + document.getElementById("aName").value + " sur le plan";
-        statusbar = document.getElementById("statusBar");
-        statusbar.style.background = "linear-gradient(yellow, rgba(255,255,255,0))";
-        statusbar.style.color = "black";
-        for(const elt of statusbar.childNodes){
+        statusBar = document.getElementById("statusBar");
+        statusBar.style.background = "linear-gradient(yellow, rgba(255,255,255,0))";
+        statusBar.style.color = "black";
+        for(const elt of statusBar.childNodes){
             if(elt.className == "DownArrow"){
                 elt.style.display = "inline-block";
             }
