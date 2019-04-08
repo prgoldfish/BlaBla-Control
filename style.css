@@ -87,6 +87,34 @@ body{
 	background: linear-gradient(lightgreen, rgba(255,255,255,0));
 }
 
+#statusBar > h2{
+	display: inline-block;
+}
+
+.DownArrow{
+	display: none;
+	position: relative;
+	width: 10px;
+	height: 10px;
+	margin: 10px;
+	background: black;
+	animation: vshake 0.5s linear alternate infinite;
+}
+
+@keyframes vshake{
+	from{transform: translate(0px, -10px);}
+	to{transform: translate(0px, 10px);}
+}
+
+.DownArrow > *{
+	display: block;
+	position: absolute;
+	top: 100%;
+	left: -50%;
+	border: solid 10px;
+	border-color: black rgba(255,255,255,0) rgba(255,255,255,0) rgba(255,255,255,0);
+}
+
 #plan{
 	padding-left: 300px;
 	background: white;

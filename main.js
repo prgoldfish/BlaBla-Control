@@ -7,14 +7,8 @@ let statusBusy = false;
 window.addEventListener("load", () => {
     document.getElementById("OnOff").addEventListener("click", (e) => { // Event listener gérant le bouton on/off du menu
         isOn = !isOn;
-        document.getElementById("OnOffLabel").innerHTML = isOn ? "Désactiver le système" : "Activer le système";
-        document.getElementById("OnOffSwitch").style.background = isOn ? "darkgreen" : "darkred";
-        document.getElementById("OnOffHandle").style.background = isOn ? "green" : "red";
-        document.getElementById("OnOffHandle").style.left = isOn ? "15px" : "-5px";
-        document.getElementById("plan").style.filter = isOn ? "contrast(1)" : "contrast(0.5)";
-        if(!statusBusy) displayStatus();
-        liste = document.getElementById("ListForm");
-        for (const elt of liste.childNodes) {
+        listeCommandes = document.getElementById("ListForm");
+        for (const elt of listeCommandes.childNodes) {
             if(elt.tagName == "LI"){
                 for (const child of elt.childNodes) {
                     if(child.tagName == "BUTTON" && child.id == "exec"){
@@ -23,6 +17,12 @@ window.addEventListener("load", () => {
                 }
             }
         }
+        document.getElementById("OnOffLabel").innerHTML = isOn ? "Désactiver le système" : "Activer le système";
+        document.getElementById("OnOffSwitch").style.background = isOn ? "darkgreen" : "darkred";
+        document.getElementById("OnOffHandle").style.background = isOn ? "green" : "red";
+        document.getElementById("OnOffHandle").style.left = isOn ? "15px" : "-5px";
+        document.getElementById("plan").style.filter = isOn ? "contrast(1)" : "contrast(0.5)";
+        if(!statusBusy) displayStatus();
     });
 
     //Création d'appareils par défaut
@@ -39,8 +39,14 @@ window.addEventListener("load", () => {
 
 function displayStatus(){
     document.getElementById("statusMessage").innerHTML = isOn ? "Système activé" : "Système désactivé";
-    document.getElementById("statusBar").style.background = isOn ? "linear-gradient(lightgreen, rgba(255,255,255,0))" : "linear-gradient(red, rgba(255,255,255,0))";
-    document.getElementById("statusBar").style.color = isOn ? "darkgreen" : "black";
+    statusBar = document.getElementById("statusBar");
+    statusbar.style.background = isOn ? "linear-gradient(lightgreen, rgba(255,255,255,0))" : "linear-gradient(red, rgba(255,255,255,0))";
+    statusbar.style.color = isOn ? "darkgreen" : "black";
+    for(const elt of statusbar.childNodes){
+        if(elt.className == "DownArrow"){
+            elt.style.display = "none";
+        }
+    }
 }
 
 function addOnMap(app) { // Permet d'ajouter un point sur le plan représentant l'appareil
@@ -118,8 +124,14 @@ function initWindows() {
         //afficher une instruction en haut de l'écran
         statusBusy = true;
         document.getElementById("statusMessage").innerHTML = "Veuillez placer l'appareil " + document.getElementById("aName").value + " sur le plan";
-        document.getElementById("statusBar").style.background = "linear-gradient(yellow, rgba(255,255,255,0))";
-        document.getElementById("statusBar").style.color = "black";
+        statusbar = document.getElementById("statusBar");
+        statusbar.style.background = "linear-gradient(yellow, rgba(255,255,255,0))";
+        statusbar.style.color = "black";
+        for(const elt of statusbar.childNodes){
+            if(elt.className == "DownArrow"){
+                elt.style.display = "inline-block";
+            }
+        }
         // On ferme la fenêtre interne afin de permettre à l'utilisateur de cliquer sur le plan
         close.click(); 
         let imgs = getEtagesImg(); // Récupérations des images des plans
