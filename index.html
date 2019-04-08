@@ -25,8 +25,10 @@
 			</ul>
 			<button class="BoutonAide" onclick="window.open('help.html', '', 'left=300,top=100')">?</button>
 		</div>
+		<div id="statusBar">
+			<h2 id="statusMessage">Système activé</h2>
+		</div>
 		<div id="plan">
-			<h3 id="message"></h3>
 			<div class="Etage">
 				<div id="etage1">
 					<img src="plan/1er.png" alt="Plan de la maison"/>
@@ -48,11 +50,11 @@
 						<input type="text" id="cName">
 					</div>
 					<div class="FormLeftCol">
-						<label for="cText">Commande : </label>
-						<textarea id="cText" rows="5" cols="50" ondrop="drop(event)" ondragover="allowDrop(event)"></textarea>
+						<label for="cText">Commande : </label><br/>
+						<textarea id="cText" rows="10" cols="50" ondrop="drop(event)" ondragover="allowDrop(event)"></textarea>
 					</div>
 					<div class="FormRightCol">
-						Suggestions (cliquer ou faire glisser pour ajouter) :
+						<p>Suggestions (cliquer ou faire glisser pour ajouter) : </p>
 						<p id="suggestions"></p>
 					</div>
 					<div class="FormClearCol">

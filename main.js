@@ -2,6 +2,7 @@
 let appareils = [];
 let commandList = [];
 let isOn = true;
+let statusBusy = false;
 
 window.addEventListener("load", () => {
     document.getElementById("OnOff").addEventListener("click", (e) => { // Event listener gérant le bouton on/off du menu
@@ -11,6 +12,7 @@ window.addEventListener("load", () => {
         document.getElementById("OnOffHandle").style.background = isOn ? "green" : "red";
         document.getElementById("OnOffHandle").style.left = isOn ? "15px" : "-5px";
         document.getElementById("plan").style.filter = isOn ? "contrast(1)" : "contrast(0.5)";
+        if(!statusBusy) displayStatus();
     });
 
     //Création d'appareils par défaut
@@ -23,10 +25,13 @@ window.addEventListener("load", () => {
         addOnMap(app);        
     }
     initWindows(); // Initialisation des composants de la fenêtre interne
-
-
 });
 
+function displayStatus(){
+    document.getElementById("statusMessage").innerHTML = isOn ? "Système activé" : "Système désactivé";
+    document.getElementById("statusBar").style.background = isOn ? "linear-gradient(lightgreen, rgba(255,255,255,0))" : "linear-gradient(red, rgba(255,255,255,0))";
+    document.getElementById("statusBar").style.color = isOn ? "darkgreen" : "black";
+}
 
 function addOnMap(app) { // Permet d'ajouter un point sur le plan représentant l'appareil
     let img = document.getElementById("etage" + app.etage); // On cherche le bon étage
@@ -99,9 +104,14 @@ function initWindows() {
         {
             alert("Veuillez donner un nom à l'appareil.");
             return;   
-        } 
-        document.getElementById("message").innerHTML = "Veuillez placer l'appareil " + document.getElementById("aName").value + " sur le plan";
-        close.click(); // On ferme la fenêtre interne afin de permettre à l'utilisateur de cliquer sur le plan
+        }
+        //afficher une instruction en haut de l'écran
+        statusBusy = true;
+        document.getElementById("statusMessage").innerHTML = "Veuillez placer l'appareil " + document.getElementById("aName").value + " sur le plan";
+        document.getElementById("statusBar").style.background = "linear-gradient(yellow, rgba(255,255,255,0))";
+        document.getElementById("statusBar").style.color = "black";
+        // On ferme la fenêtre interne afin de permettre à l'utilisateur de cliquer sur le plan
+        close.click(); 
         let imgs = getEtagesImg(); // Récupérations des images des plans
         for (let i = 0; i < imgs.length; i++) {
             imgs[i].addEventListener("click", (ev) => {mapListen(ev, i, appTypes)});  // Ajout des listeners
@@ -203,7 +213,8 @@ function initWindows() {
 
 function createSuggestionList(elmt) // Création de la liste des suggestions lors de la création d'une commande
 {
-    let suggestionList = ["Ouvrir", "Fermer", "Allumer", "Eteindre", "Volume", "Température", "Chaine"];
+    let suggestionList = ["Ouvrir", "Fermer", "Porte", "Fenètre", "Allumer", "Eteindre", "Chaine", "Volume", "Télévision", "Température", "Chauffage"];
+    let nbElts = 0;
     for (const sugg of suggestionList) {
         let s = document.createElement("span");
         s.innerHTML = sugg + " ";
@@ -213,7 +224,11 @@ function createSuggestionList(elmt) // Création de la liste des suggestions lor
         s.addEventListener("click", () => {
             document.getElementById("cText").value += s.innerHTML; // On ajoute le contenu de l'élément dans la zone de texte
         });
-        
+        nbElts++;
+        if(nbElts >= 4){
+            elmt.appendChild(document.createElement("br"))
+            nbElts = 0;
+        }
     }
 }
 
@@ -247,7 +262,7 @@ function initCommandList(list) // Création de la lste des commandes
         exec.type = "button";
         exec.addEventListener("click", () => {
             commandList[i].doAction(); // Lance l'action de la commande à ses appareils associés
-            alert("Commande exécutée avec succès");
+            alert("Commande exécutée");
         });
         li.appendChild(exec);
         let suppr = document.createElement("button"); // On ajoute un bouton pour supprimer la commande
@@ -255,9 +270,11 @@ function initCommandList(list) // Création de la lste des commandes
         suppr.type = "button";
         suppr.addEventListener("click", () => {
             let nom = commandList[i].nom;
-            commandList.splice(i, 1);
-            initCommandList(list); // Si on supprime une commande, on recharge la liste
-            alert("Commande " + nom + " supprimée avec succès");
+            if(confirm("Voulez-vous supprimer la commande " + nom + " ? Cette action est irréversible!")){
+                commandList.splice(i, 1);
+                initCommandList(list); // Si on supprime une commande, on recharge la liste
+                alert("Commande " + nom + " supprimée avec succès");
+            }
         });
         li.appendChild(suppr);
         list.appendChild(li);
@@ -265,7 +282,7 @@ function initCommandList(list) // Création de la lste des commandes
     if(list.innerHTML == "") //S'il n'y a pas de commandes
     {
         let li = document.createElement("li");
-        li.innerHTML = "Aucune commande de créée.";
+        li.innerHTML = "Aucune commande enregistrée.";
         list.appendChild(li);
     }
 }
@@ -288,8 +305,8 @@ function getEtagesImg() { // Permet d'avoir les éléments HTML des images des p
 }
 
 function mapListen(ev, etage, appTypes) { //Listener permettant de selectionner l'emplacement de l'appareil sur le plan
-    let x = ev.offsetX; //On récupère les coordonnées x et y du clic par rapport à l'image
-    let y = ev.offsetY;
+    let x = ev.offsetX - 10; //On récupère les coordonnées x et y du clic par rapport à l'image
+    let y = ev.offsetY - 10;
     let nom = document.getElementById("aName").value; //on récupère le nom de l'appareil
     let idApp = parseInt(document.getElementById("aType").value.replace("app", "")); 
     let appConstructor = appTypes[idApp]; // On récupère le constructeur de l'appareil
@@ -297,8 +314,9 @@ function mapListen(ev, etage, appTypes) { //Listener permettant de selectionner 
     appareils.push(app); 
     addOnMap(app); // On l'ajoute sur le plan
     removeMapListeners(); // On enlève les listeners afin de ne pas ajouter plusieurs fois le même objet
-    document.getElementById("message").innerHTML = "";
-    alert("L'appareil " + nom + " de type " + appConstructor.name + " a été créé avec succès");
+    statusBusy = false;
+    displayStatus();
+    alert("L'appareil " + nom + " de type " + appConstructor.name + " a été ajouté avec succès");
 }
 
 function removeMapListeners() // Permet d'enlever les listeners créés lors du placement d'un appareil sur le plan 

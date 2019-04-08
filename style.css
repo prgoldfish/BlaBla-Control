@@ -4,7 +4,7 @@ body{
 
 .PanneauMenu{
 	position: fixed;
-	z-index: 1;
+	z-index: 2;
 	top: -10px;
 	bottom: -10px;
 	width: 200px;
@@ -76,6 +76,17 @@ body{
 	border: 5px solid blue;
 }
 
+#statusBar{
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 200px;
+	right: 0;
+	text-align: center;
+	color: darkgreen;
+	background: linear-gradient(lightgreen, rgba(255,255,255,0));
+}
+
 #plan{
 	padding-left: 300px;
 	background: white;
@@ -124,6 +135,7 @@ body{
 	top: 0px;
 	right: 0px;
 	bottom: 0px;
+	z-index: 1;
 	background: rgba(0, 0, 0, 0.5);
 	padding-left: 200px;
 	overflow: auto;
@@ -141,6 +153,10 @@ body{
 
 #window form{
 	display: none;
+}
+
+#window form p{
+	margin: 0;
 }
 
 #CloseButton{
@@ -172,6 +188,7 @@ textarea{
 }
 
 #suggestions > span{
+	display: inline-block;
 	background: gold;
 	margin: 5px;
 	padding: 5px;
