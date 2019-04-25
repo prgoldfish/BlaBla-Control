@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>mode d'emploi</title>
+	</head>
+	<body>
+		<h1>BlaBla-Control mode d'emploi</h1>
+		<hr/>
+		<p>Bienvenue dans le mode d'emploi de l'application.<br/>
+		Cliquez sur une catégorie pour l'aide correspondante:</p>
+		<ul>
+		<li><a href="#MainScreen">Ecran princial</a></li>
+		<li><a href="#AssocierAppareil">Associer un appareil</a></li>
+		<li><a href="#CreerCommande">Créer une commande</a></li>
+		<li><a href="#ListeCommandes">Liste des commandes</a></li>
+		</ul>
+		<hr/>
+		<h2 id="MainScreen">Ecran princial</h2>
+		<img src="screenshots/MainScreen.png" alt="Ecran princial" width="500px"/>
+		<p>Sur cet écran, vous pouvez consulter l'emplacement des appareils sur le plan de votre maison.<br/>placez le curseur de la souris sur un cercle de couleur pour voir le statut de l'appareil correspondant.</p>
+		<p>La bande de couleur en haut de l'écran permet de connaitre l'état actuel du sistème (vert = actif, rouge = inactif) ou de vous informer si une action est requise.</p>
+		<p>Le menu à gauche de l'écran permet d'effectuer diverses actions:</p>
+		<ul>
+			<li>Le premier bouton permet d'activer et de désactiver le système.</li>
+			<li>"ajouter une commande" ouvre le menu permettant d'ajouter une commande.</li>
+			<li>"Liste des commandes" permet de consulter et modifier la liste des commandes.</li>
+			<li>"Associer un appareil" permet de connecter un nouvel appareil au système.</li>
+		</ul>
+		<hr/>
+		<h2 id="AssocierAppareil">Associer un appareil</h2>
+		<p>Avant d'utiliser un appareil, il doit être ajouté au système:</p>
+		<ol>
+			<li>Cliquer sur "Associer un appareil" dans le menu. Une fenètre apparait.</li>
+			<li>Dans la fenètre, saisir le nom et le type de l'appareil que vous voulez associer.</li>
+			<li>Le plan s'affiche. Cliquez à l'emplacement correspondant à l'appareil que vous ajoutez.</li>
+			<li>Un message de confirmation apparait et un nouveau repère correspondant à l'appareil est ajouté au plan. Cela signifie qu'il est prêt à être utilisé.</li>
+		</ol>
+		<hr/>
+		<h2 id="CreerCommande">Créer une commande</h2>
+		<img src="screenshots/CreerCommande.png" alt="Créer une commande" width="500px"/>
+		<p>Pour créer une commande, on procède de la manière suivante:</p>
+		<ol>
+			<li>Cliquer sur "ajouter une commande" dans le menu. Une fenètre apparait.</li>
+			<li>Dans la fenètre, taper le nom de la commande.</li>
+			<li>Saisir la commande que vous voulez donner. Utilisez de préférence des mots simples à retenir. Des suggestions de mots sont fournies et peuvent être insérées en cliquant ou via un glisser-déposer.</li>
+			<li>Spécifiez l'appareil qui doit effectuer l'action ainsi que la nature de cette action. D'autres champs peuvent apparaître selon le type d'action choisi.</li>
+			<li>Cliquez sur "Créer la commande" et confirmez.</li>
+		</ol>
+		<p>Vous pouvez annuler la création de la commande à tout moment au moyen du bouton "X" en haut du formulaire. Les données entrées ne seront alors pas enregistrées.</p>
+		<hr/>
+		<h2 id="ListeCommandes">Liste des commandes</h2>
+		<img src="screenshots/ListeCommandes.png" alt="Liste des commandes" width="500px"/>
+		<p>Cliquez sur "Liste des commandes" pour ouvrir la liste. Vous pouvez ensuite tester les différentes commandes avec le bouton Exécuter. Si vous voulez enlever une commande, utilisez le bouton "supprimer" (Attention: une fois confirmée, la suppression ne peut être annulée!).</p>
+		<p>Pour revenir à l'écran principal, utilisez le bouton "X" au dessus de la liste.</p>
+	</body>
+</html>
